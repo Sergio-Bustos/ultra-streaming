@@ -163,10 +163,10 @@ carga();cargaW();
 ["pointerdown","touchstart","keydown"].forEach(t=>window.addEventListener(t,desbloquea,{passive:true}));
 var esB=e=>{var t=e.target.closest&&e.target.closest("a,button,[role=button]");return t&&t.id!=="son"&&!t.disabled?t:null};
 var dn=null;
-document.addEventListener("pointerdown",e=>{desbloquea();var t=esB(e);dn=t&&(e.pointerType!=="mouse"||e.button===0)?{x:e.clientX,y:e.clientY,t:Date.now(),el:t}:null},{passive:true});
+document.addEventListener("pointerdown",e=>{desbloquea();var t=esB(e);dn=null;if(t&&(e.pointerType!=="mouse"||e.button===0)){ult=Date.now();suena()}},{passive:true});
 document.addEventListener("pointermove",e=>{if(dn&&Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>10)dn=null},{passive:true});
 document.addEventListener("pointercancel",()=>{dn=null},{passive:true});
-document.addEventListener("pointerup",e=>{var d=dn;dn=null;if(d&&d.el.contains(e.target)&&Date.now()-d.t<800&&Math.hypot(e.clientX-d.x,e.clientY-d.y)<=10){ult=Date.now();suena()}},{passive:true});
+
 document.addEventListener("click",e=>{if(e.detail===0&&esB(e)&&Date.now()-ult>600)suena()});
 seguro(()=>{var b=$("#son");b.setAttribute("aria-pressed",SON?"true":"false");b.addEventListener("click",()=>{SON=!SON;b.setAttribute("aria-pressed",SON?"true":"false");guarda("us-son",SON?"1":"0");if(SON)suena()})});
 
