@@ -156,7 +156,10 @@ function suena(v){
   if(!SON)return;var c=ctx();
   if(c&&c.state!=="running"&&c.resume){try{var r=c.resume();r&&r.then?r.then(()=>toca(v),()=>toca(v)):toca(v)}catch(e){toca(v)}}else toca(v);
 }
-carga();
+var WB=null;
+function cargaW(){var c=ctx();if(!c)return;try{fetch("whoosh.wav").then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>{var p=c.decodeAudioData(b,ok,no);p&&p.then&&p.then(ok,no)})).then(b=>{WB=b}).catch(()=>{})}catch(e){}}
+function woosh(){if(!SON)return;var c=AC;if(!c||!WB)return;var go=()=>{try{var s=c.createBufferSource();s.buffer=WB;var g=c.createGain();g.gain.value=1;s.connect(g);g.connect(c.destination);s.start(0)}catch(e){}};if(c.state!=="running"&&c.resume){try{var r=c.resume();r&&r.then?r.then(go,go):go()}catch(e){go()}}else go()}
+carga();cargaW();
 ["pointerdown","touchstart","keydown"].forEach(t=>window.addEventListener(t,desbloquea,{passive:true}));
 var esB=e=>{var t=e.target.closest&&e.target.closest("a,button,[role=button]");return t&&t.id!=="son"&&!t.disabled?t:null};
 var dn=null;
@@ -209,7 +212,7 @@ seguro(()=>{
     se.style.setProperty("--p","1");se.style.setProperty("--sx","0px");se.style.setProperty("--sy","0px");
     var t=RED?[0,0,0]:[0,550,1300];
     setTimeout(()=>{en.classList.add("roto");se.classList.add("roto");fl.classList.add("on");try{navigator.vibrate&&navigator.vibrate([40,30,90])}catch(e){}},t[0]);
-    setTimeout(()=>{en.classList.add("abre");document.body.style.overflow=""},t[1]);
+    setTimeout(()=>{en.classList.add("abre");document.body.style.overflow="";woosh()},t[1]);
     setTimeout(listo,t[1]+600);
     setTimeout(()=>en.classList.add("fin"),t[2]+800);
     setTimeout(()=>{en.parentNode&&en.parentNode.removeChild(en)},t[2]+1300);
