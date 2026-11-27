@@ -165,7 +165,7 @@ carga();cargaW();
 ["pointerdown","touchstart","keydown"].forEach(t=>window.addEventListener(t,desbloquea,{passive:true}));
 var esB=e=>{var t=e.target.closest&&e.target.closest("a,button,[role=button]");return t&&t.id!=="son"&&!t.disabled&&!t.closest("#en")?t:null};
 var dn=null;
-document.addEventListener("pointerdown",e=>{var run=AC&&AC.state==="running";desbloquea();var t=esB(e);dn=null;if(t&&(e.pointerType!=="mouse"||e.button===0)){if(run){ult=Date.now();suena()}else dn={x:e.clientX,y:e.clientY,t:Date.now(),el:t}}},{passive:true});
+document.addEventListener("pointerdown",e=>{var run=AC&&AC.state==="running";desbloquea();var t=esB(e);dn=null;if(t&&(e.pointerType!=="mouse"||e.button===0)){if(run&&e.pointerType==="mouse"){ult=Date.now();suena()}else dn={x:e.clientX,y:e.clientY,t:Date.now(),el:t}}},{passive:true});
 document.addEventListener("pointermove",e=>{if(dn&&Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>10)dn=null},{passive:true});
 document.addEventListener("pointercancel",()=>{dn=null},{passive:true});
 document.addEventListener("pointerup",e=>{var d=dn;dn=null;if(d&&d.el.contains(e.target)&&Date.now()-d.t<800&&Math.hypot(e.clientX-d.x,e.clientY-d.y)<=10){ult=Date.now();suena()}},{passive:true});
